@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'password' => 'password'
         ]);
-        $this->call([
-            FournisseurSeeder::class,
-            MarqueSeeder::class,
-        ]);
+        // $this->call([
+        //     FournisseurSeeder::class,
+        //     MarqueSeeder::class,
+        // ]);
     }
 }
