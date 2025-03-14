@@ -23,7 +23,8 @@ class CreateProduct extends FormRequest
     {
         return [
             "name" => ['required'],
-            "marque_id" => ["required", "exists:marques,id"]
+            "marque_id" => ["required", "exists:marques,id"],
+            "price_kilo" => ["required", "numeric"]
         ];
     }
 }
