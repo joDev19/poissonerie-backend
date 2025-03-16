@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\CreateVente;
+use App\Models\Vente;
+use App\Services\VenteService;
+use Illuminate\Http\Request;
+
+class VenteController extends Controller
+{
+    public function __construct(private VenteService $venteService){
+    }
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return $this->venteService->all();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return $this->venteService->create();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(CreateVente $request)
+    {
+        return $this->venteService->store($request->validated());
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Vente $vente)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Vente $vente)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Vente $vente)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Vente $vente)
+    {
+        //
+    }
+}

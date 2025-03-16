@@ -5,7 +5,7 @@ class BaseService implements BaseInterface{
 
     public function all()
     {
-        return $this->model->all();
+        return $this->model->orderByDesc('created_at')->get();
         // return $this->model->paginate(25);
     }
 

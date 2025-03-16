@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
 
-class CreateProduct extends FormRequest
+class CreateVente extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +23,12 @@ class CreateProduct extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ['required'],
-            "marque_id" => ["required", "exists:marques,id"],
-            "price_kilo" => ["required", "numeric"],
-            "price_carton" => ["required", "numeric"],
+            "product_id" => ["required", "exists:products,id"],
+            "type" => ["required", "in:gros,detail"],
+            "quantity" => ["required", "numeric"],
+            "buyer_id" => ["nullable", "exists:buyers,id"],
+            "date" => ["required", "date"],
+            "buyer_informations" => ["nullable", "json", "contains:name,email,contact,ville"]
         ];
     }
 }
