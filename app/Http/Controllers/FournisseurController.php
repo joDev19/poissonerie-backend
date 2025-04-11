@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FournisseurCreateRequest;
+use App\Http\Requests\UpdateFournisseur;
 use App\Models\Fournisseur;
 use App\Services\FournisseurService;
 use Illuminate\Http\Request;
@@ -13,9 +14,9 @@ class FournisseurController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->fournisseurService->all();
+        return $this->fournisseurService->all($request->all());
     }
 
     /**
@@ -53,7 +54,7 @@ class FournisseurController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(FournisseurCreateRequest $request, int $fournisseur)
+    public function update(UpdateFournisseur $request, int $fournisseur)
     {
         return $this->fournisseurService->update($fournisseur, $request->all());
     }

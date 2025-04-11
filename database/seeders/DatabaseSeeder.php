@@ -14,16 +14,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        User::truncate();
+        // User::truncate();
         User::create([
             'name' => 'Jordy GNANIH',
             'email' => 'ppapaollard@gmail.com',
             'role' => 'admin',
             'password' => 'password'
         ]);
-        // $this->call([
-        //     FournisseurSeeder::class,
-        //     MarqueSeeder::class,
-        // ]);
+        $this->call([
+            FournisseurSeeder::class,
+            MarqueSeeder::class,
+            ProductSeeder::class,
+        ]);
     }
 }

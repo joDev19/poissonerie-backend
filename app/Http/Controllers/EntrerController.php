@@ -15,9 +15,9 @@ class EntrerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->entrerService->all();
+        return $this->entrerService->all($request->all());
     }
 
     /**

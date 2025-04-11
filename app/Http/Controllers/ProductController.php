@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateProduct;
-use App\Services\MarqueService;
+use App\Http\Requests\UpdateProduct;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 
@@ -15,9 +15,9 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->productService->all();
+        return $this->productService->all($request->all());
     }
 
     /**
@@ -25,10 +25,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $marques = (new MarqueService())->all();
-        return [
-            "marques" => $marques
-        ];
+        return $this->productService->create();
     }
 
     /**
@@ -57,7 +54,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CreateProduct $request, int $product)
+    public function update(UpdateProduct $request, int $product)
     {
         return $this->productService->update($product, $request->all());
     }

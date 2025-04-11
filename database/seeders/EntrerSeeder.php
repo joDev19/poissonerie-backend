@@ -12,6 +12,23 @@ class EntrerSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $entrers = [
+            [
+                "date" => now(),
+                "product_id" => 1,
+                "box_quantity" => 3,
+                "kilo_quantity" => 30,
+                "price" => 27000,
+                "fournisseur_id" => 1
+            ],
+            [
+                "date" => now(),
+                "product_id" => 1,
+                "box_quantity" => 3,
+                "kilo_quantity" => 30,
+                "price" => 27000,
+                "fournisseur_id" => 1
+            ],
+        ];
     }
 }

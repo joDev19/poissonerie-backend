@@ -14,9 +14,9 @@ class VenteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->venteService->all();
+        return $this->venteService->all($request->all());
     }
 
     /**
@@ -38,9 +38,9 @@ class VenteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Vente $vente)
+    public function show(int $vente)
     {
-        //
+        return $this->venteService->find($vente);
     }
 
     /**
@@ -54,9 +54,9 @@ class VenteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Vente $vente)
+    public function update(CreateVente $request, int $vente)
     {
-        //
+        return $this->venteService->update($vente, $request->validated());
     }
 
     /**

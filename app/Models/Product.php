@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Events\ProductCreated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
@@ -12,4 +14,11 @@ class Product extends Model
     public function marque(): BelongsTo{
         return $this->belongsTo(Marque::class);
     }
+    public function quantity(): HasOne{
+        return $this->hasOne(ProductQuantity::class, 'product_id');
+    }
+    protected $dispatchesEvents = [
+        'created' => ProductCreated::class,
+    ];
+    protected $with = ['quantity'];
 }

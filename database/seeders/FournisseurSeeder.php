@@ -14,12 +14,12 @@ class FournisseurSeeder extends Seeder
     public function run(): void
     {
         // Fournisseur::truncate();
-        // $names = ["Fournisseur 1", "Fournisseur 2", "Fournisseur 3"];
-        // foreach ($names as $name) {
-        //     Fournisseur::create([
-        //         "name" => $name,
-        //     ]);
-        // }
-        Fournisseur::factory(100)->create();
+        $names = ["Fournisseur de silivi", "Fournisseur de saumon", "Fournisseur de tilapia", 'Fournisseur de tchawa', 'Fournisseur de viande'];
+        foreach ($names as $name) {
+            Fournisseur::create([
+                "name" => $name,
+            ]);
+        }
+        // Fournisseur::factory(100)->create();
     }
 }

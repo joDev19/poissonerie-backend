@@ -13,6 +13,27 @@ class MarqueSeeder extends Seeder
      */
     public function run(): void
     {
-        Marque::factory(100)->create();
+        // Marque::factory(100)->create();
+        // Marque::truncate();
+        $marques = [
+            [
+                "name" => "Silivi",
+            ],
+            [
+                "name" => "Poisson chat",
+            ],
+            [
+                "name" => "Aileron",
+            ],
+            [
+                "name" => "Tilapia",
+            ],
+            [
+                "name" => "Saumon",
+            ]
+        ];
+        foreach ($marques as $key => $marque) {
+            Marque::create($marque);
+        }
     }
 }

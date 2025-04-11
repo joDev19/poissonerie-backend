@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\VenteCreated;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,5 +24,9 @@ class Vente extends Model
             get: fn () => $this->type == 'detail' ? ($this->product->price_kilo * $this->quantity) : ($this->product->price_carton * $this->quantity)
         );
     }
+    protected $dispatchesEvents = [
+        'created' => VenteCreated::class,
+    ];
     protected $appends = ['total_price'];
+
 }

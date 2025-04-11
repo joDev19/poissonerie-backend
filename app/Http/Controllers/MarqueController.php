@@ -15,9 +15,9 @@ class MarqueController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->marqueService->all();
+        return $this->marqueService->all($request->all());
     }
 
     /**

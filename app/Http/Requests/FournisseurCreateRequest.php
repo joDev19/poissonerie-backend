@@ -22,7 +22,9 @@ class FournisseurCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ['required', 'unique:fournisseurs,name']
+            "name" => ['required', 'unique:fournisseurs,name'],
+            "contact" => ['nullable'],
+            "adresse" => ['nullable'],
         ];
     }
 }

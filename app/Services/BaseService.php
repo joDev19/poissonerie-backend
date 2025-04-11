@@ -1,12 +1,23 @@
 <?php
 namespace App\Services;
-class BaseService implements BaseInterface{
-    public function __construct(private $model){}
-
-    public function all()
+use Illuminate\Database\Eloquent\Builder;
+class BaseService implements BaseInterface
+{
+    public function __construct(private $model)
     {
-        return $this->model->orderByDesc('created_at')->get();
-        // return $this->model->paginate(25);
+    }
+
+    public function all(array $data = [], array $with = [])
+    {
+        $queryBuilder = $this->model;
+        if (count($with) > 0) {
+            $queryBuilder = $queryBuilder->with($with);
+        }
+
+        if (count($data) > 0) {
+            $queryBuilder = $this->filter(collect($data)->except('page')->toArray(), $queryBuilder);
+        }
+        return $queryBuilder->paginate(15);
     }
 
     public function find($id)
@@ -29,8 +40,25 @@ class BaseService implements BaseInterface{
     {
         return $this->model->findOrFail($id)->delete();
     }
-    public function filter($data)
+    public function filter(array $data, $queryBuilder)
     {
-        return $this->model->where($data)->get();
+        foreach ($data as $key => $value) {
+            if ($key == 'name') {
+                $queryBuilder = $queryBuilder->where($key, 'LIKE', '%' . $value . '%');
+            } else if ($key == 'created_at') {
+                $queryBuilder = $queryBuilder->whereDate($key, '=', $value . '%');
+            } else if ($key == 'start_date') {
+                $queryBuilder = $queryBuilder->whereDate('created_at', '>=', $value);
+            } else if ($key == 'end_date') {
+                $queryBuilder = $queryBuilder->whereDate('created_at', '<=', $value);
+            } else if ($key == 'product_name') {
+                $queryBuilder = $queryBuilder->whereHas('product', function (Builder $query) use ($value) {
+                    $query->where('name', 'LIKE', '%' . $value . '%');
+                });
+            } else {
+                $queryBuilder = $queryBuilder->whereIn($key, '=', $value);
+            }
+        }
+        return $queryBuilder->orderByDesc('created_at');
     }
 }
