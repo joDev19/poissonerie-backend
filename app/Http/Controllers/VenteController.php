@@ -16,7 +16,7 @@ class VenteController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->venteService->all($request->all());
+        return $this->venteService->all(null, $request->all());
     }
 
     /**
@@ -62,8 +62,8 @@ class VenteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Vente $vente)
+    public function destroy(int $id)
     {
-        //
+        return $this->venteService->delete($id);
     }
 }

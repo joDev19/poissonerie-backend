@@ -23,12 +23,17 @@ class CreateVente extends FormRequest
     public function rules(): array
     {
         return [
-            "product_id" => ["required", "exists:products,id"],
-            "type" => ["required", "in:gros,detail"],
-            "quantity" => ["required", "numeric"],
-            "buyer_id" => ["nullable", "exists:buyers,id"],
             "date" => ["required", "date"],
-            "buyer_informations" => ["nullable", "json", "contains:name,email,contact,ville"]
+            "contains_gros" => ["required", "boolean"],
+            "buyer_informations" => ["required_if:contains_gros,true", "array"],
+            "buyer_informations.type_achat" => ["required_if:contains_gros,true","in:à terme,au comptant"],
+            "buyer_informations.nom" => ["required_if:contains_gros,true",],
+            "buyer_informations.ifu" => ["required_if:contains_gros,true",],
+            "selled_products" => ["required", "array"],
+            "selled_products.*.product_id" => ["required", "exists:products,id"],
+            "selled_products.*.type" => ["required", "in:gros,detail"],
+            "selled_products.*.quantity" => ["required", "numeric"],
+
         ];
     }
 }

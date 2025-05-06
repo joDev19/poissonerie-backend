@@ -22,11 +22,17 @@ class UpdateProductQuantity
     public function handle(EntrerCreated $event): void
     {
         $entrer = $event->entrer;
-        $productQuantity = $entrer->product->quantity;
-        $oldBoxQuantity = $productQuantity->box;
-        $productQuantity->box = $entrer->box_quantity + $oldBoxQuantity;
-        $oldKgQuantity = $productQuantity->kg;
-        $productQuantity->kg = $entrer->kilo_quantity + $oldKgQuantity;
+        $product = $entrer->product;
+        $productQuantity = $product->quantity;
+        if($product->category == 'kilo_ou_carton'){
+            $oldBoxQuantity = $productQuantity->box;
+            $productQuantity->box = $entrer->box_quantity + $oldBoxQuantity;
+            $oldKgQuantity = $productQuantity->kg;
+            $productQuantity->kg = $entrer->kilo_quantity + $oldKgQuantity;
+        }else{
+            $oldQuantity = $productQuantity->unit;
+            $productQuantity->unit = $entrer->unit_quantity + $oldQuantity;
+        }
         $productQuantity->save();
     }
 }

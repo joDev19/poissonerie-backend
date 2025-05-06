@@ -11,14 +11,14 @@ class EntrerService extends BaseService
     {
         parent::__construct($entrer);
     }
-    public function all(array $data = [], array $with = ["product"]){
-        return parent::all($data, $with);
+    public function all($query = null, array $data = [], array $with = ["product"]){
+        return parent::all(null, $data, $with);
     }
     public function create(){
         // liste des produits
         return ['products' => Product::all(), 'marques' => Marque::all(), 'fournisseurs' => Fournisseur::all()];
     }
-    public function find($id){
-        return Entrer::with(['product.marque', 'fournisseur'])->find($id);
+    public function find($id, array $with = ['product.marque', 'fournisseur']){
+        return parent::find($id, $with);
     }
 }

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->float("price");
             $table->date("date");
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->float("kilo_quantity");
-            $table->float("box_quantity");
+            $table->float("kilo_quantity")->default(0);
+            $table->float("box_quantity")->default(0);
             $table->timestamps();
         });
     }

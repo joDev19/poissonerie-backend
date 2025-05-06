@@ -5,4 +5,7 @@ class MarqueService extends BaseService {
     public function __construct(private $marque = new Marque()){
         parent::__construct($marque);
     }
+    public function find($id, array $with = ['products'])   {
+        return parent::find($id, $with);
+    }
 }

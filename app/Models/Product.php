@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
-    protected $fillable = ['name', 'marque_id', 'price_kilo', 'price_carton'];
+    protected $fillable = ['name', 'marque_id', 'price_kilo', 'price_carton', 'price_unit', 'category'];
     // protected $hidden = ['marque_id'];
     public function marque(): BelongsTo{
         return $this->belongsTo(Marque::class);

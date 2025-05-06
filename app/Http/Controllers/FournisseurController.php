@@ -16,7 +16,7 @@ class FournisseurController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->fournisseurService->all($request->all());
+        return $this->fournisseurService->all(null, $request->all());
     }
 
     /**

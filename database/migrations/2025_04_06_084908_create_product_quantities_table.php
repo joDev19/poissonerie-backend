@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('product_quantities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->float('kg');
-            $table->float('box');
+            $table->float('kg')->default(0);
+            $table->float('box')->default(0);
             $table->timestamps();
         });
     }

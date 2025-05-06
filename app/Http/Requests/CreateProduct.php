@@ -11,7 +11,7 @@ class CreateProduct extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkIfUserIsAdmin();;
     }
 
     /**
@@ -24,8 +24,10 @@ class CreateProduct extends FormRequest
         return [
             "name" => ['required', 'unique:products,name'],
             "marque_id" => ["required", "exists:marques,id"],
-            "price_kilo" => ["required", "numeric"],
-            "price_carton" => ["required", "numeric"],
+            "category" => ["required", "in:unite,kilo_ou_carton"],
+            "price_kilo" => ["required_if:category,kilo_ou_carton", "numeric"],
+            "price_carton" => ["required_if:category,kilo_ou_carton", "numeric"],
+            "price_unit" => ["required_if:category,unite", "numeric"],
         ];
     }
 }

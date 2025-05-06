@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('ventes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->enum('type', ['gros', 'detail']);
-            $table->float('quantity');
+            $table->json('buyer_infos')->nullable();
             $table->timestamps();
         });
     }

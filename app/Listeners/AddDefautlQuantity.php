@@ -25,7 +25,8 @@ class AddDefautlQuantity
         $productQuantityService->store([
             'product_id' => $event->product->id,
             'kg' => 0,
-            'box' => 0
+            'box' => 0,
+            'unit' => 0,
         ]);
     }
 }

@@ -17,7 +17,7 @@ class EntrerController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->entrerService->all($request->all());
+        return $this->entrerService->all(null, $request->all());
     }
 
     /**

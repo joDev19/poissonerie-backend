@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Events\VenteCreated;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,23 +9,37 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Vente extends Model
 {
     protected $fillable = [
-        "product_id",
-        "type",
-        "quantity",
-        "buyer_id",
+        'buyer_infos',
         "date",
     ];
-    public function product(): BelongsTo{
-        return $this->belongsTo(Product::class);
-    }
+
     protected function totalPrice():Attribute{
-        return new Attribute(
-            get: fn () => $this->type == 'detail' ? ($this->product->price_kilo * $this->quantity) : ($this->product->price_carton * $this->quantity)
-        );
+        return Attribute::get(function(){
+            $this->loadMissing('selledProducts.product');
+            return $this->selledProducts->reduce(function ($carry, $selledProduct) {
+                $product = $selledProduct->product;
+                if(!$product){
+                    return $carry;
+                }
+                if ($product->category === 'unite') {
+                    return $carry + ($selledProduct->quantity * $product->prix_unit);
+                }
+                if ($selledProduct->type === 'gros') {
+                    return $carry + ($selledProduct->quantity * $product->price_carton);
+                }
+
+                return $carry + ($selledProduct->quantity * $product->price_kilo);
+            }, 0);
+        });
     }
-    protected $dispatchesEvents = [
-        'created' => VenteCreated::class,
+    public function selledProducts(){
+        return $this->hasMany(SelledProduct::class);
+    }
+
+
+    protected $with = [
+        'selledProducts',
     ];
-    protected $appends = ['total_price'];
+    protected $appends = ['total_price',];
 
 }

@@ -7,9 +7,12 @@ class BaseService implements BaseInterface
     {
     }
 
-    public function all(array $data = [], array $with = [])
+    public function all($query = null, array $data = [], array $with = [])
     {
-        $queryBuilder = $this->model;
+        $queryBuilder = $this->model->orderByDesc('created_at');
+        if ($query) {
+            $queryBuilder = $query->orderByDesc('created_at');
+        }
         if (count($with) > 0) {
             $queryBuilder = $queryBuilder->with($with);
         }
@@ -20,9 +23,13 @@ class BaseService implements BaseInterface
         return $queryBuilder->paginate(15);
     }
 
-    public function find($id)
+    public function find($id, array $with = [])
     {
-        return $this->model->findOrFail($id);
+        if (count($with) > 0) {
+            return $this->model->with($with)->findOrFail($id);
+        }else{
+            return $this->model->findOrFail($id);
+        }
     }
 
     public function store($data)
@@ -59,6 +66,6 @@ class BaseService implements BaseInterface
                 $queryBuilder = $queryBuilder->whereIn($key, '=', $value);
             }
         }
-        return $queryBuilder->orderByDesc('created_at');
+        return $queryBuilder;
     }
 }

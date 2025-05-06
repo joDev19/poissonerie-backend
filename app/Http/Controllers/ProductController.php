@@ -17,7 +17,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->productService->all($request->all());
+        return $this->productService->all(null, $request->all());
     }
 
     /**
@@ -33,7 +33,7 @@ class ProductController extends Controller
      */
     public function store(CreateProduct $request)
     {
-        return $this->productService->store($request->all());
+        return $this->productService->store($request->validated());
     }
 
     /**

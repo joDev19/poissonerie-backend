@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MarqueCreateRequest;
+use App\Http\Requests\UpdateMarque;
 use App\Models\Marque;
 use App\Services\MarqueService;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class MarqueController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->marqueService->all($request->all());
+        return $this->marqueService->all(null, $request->all());
     }
 
     /**
@@ -55,7 +56,7 @@ class MarqueController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(MarqueCreateRequest $request, int $marque)
+    public function update(UpdateMarque $request, int $marque)
     {
         return $this->marqueService->update($marque, $request->all());
     }
