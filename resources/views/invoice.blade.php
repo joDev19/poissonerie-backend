@@ -84,7 +84,7 @@
     <div class="mb-4">
         <p><span class="font-semibold">Facture N°:</span> {{ $vente->id }}</p>
         <p><span class="font-semibold">Date:</span> {{ $vente->created_at }}</p>
-        <p><span class="font-semibold">Client:</span> {{ $vente->buyer_infos == null ? "__" : $vente->buyer_infos->nom }}</p>
+        <p><span class="font-semibold">Client:</span> {{ $vente->buyer_infos == null ? "__" : json_decode($vente->buyer_infos, true)['nom'] }}</p>
     </div>
 
     <!-- Tableau des produits -->
@@ -102,7 +102,7 @@
                 <tr>
                     <td>{{$selled_product->product->name}}</td>
                     <td>{{$selled_product->quantity}} {{ $selled_product->type == 'gros' ? 'carton(s)' : 'kg' }}</td>
-                    <td>{{$selled_product->type == 'gros' ? $selled_product->product->price_carton : $selled_product->product->price_kilo}} F</td>
+                    <td>{{ $selled_product->product->category == 'unite' ?  $selled_product->product->price_unit : ($selled_product->type == 'gros' ? $selled_product->product->price_carton : $selled_product->product->price_kilo) }} F</td>
                     <td>{{ $selled_product->total_price }} F</td>
                 </tr>
             @endforeach

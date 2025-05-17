@@ -49,6 +49,9 @@ class BaseService implements BaseInterface
     }
     public function filter(array $data, $queryBuilder)
     {
+        // dd(
+        //     $queryBuilder->whereDate('created_at', '>=', "")
+        // );
         foreach ($data as $key => $value) {
             if ($key == 'name') {
                 $queryBuilder = $queryBuilder->where($key, 'LIKE', '%' . $value . '%');

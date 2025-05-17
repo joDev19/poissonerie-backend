@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vente extends Model
 {
     protected $fillable = [
         'buyer_infos',
         "date",
+        "invoice"
     ];
 
     protected function totalPrice():Attribute{
@@ -22,7 +24,7 @@ class Vente extends Model
                     return $carry;
                 }
                 if ($product->category === 'unite') {
-                    return $carry + ($selledProduct->quantity * $product->prix_unit);
+                    return $carry + ($selledProduct->quantity * $product->price_unit);
                 }
                 if ($selledProduct->type === 'gros') {
                     return $carry + ($selledProduct->quantity * $product->price_carton);
@@ -32,13 +34,17 @@ class Vente extends Model
             }, 0);
         });
     }
-    public function selledProducts(){
+    public function selledProducts(): HasMany{
         return $this->hasMany(SelledProduct::class);
     }
 
 
     protected $with = [
         'selledProducts',
+    ];
+    protected $casts = [
+        'buyer_infos' => 'array',
+        'date' => 'datetime',
     ];
     protected $appends = ['total_price',];
 

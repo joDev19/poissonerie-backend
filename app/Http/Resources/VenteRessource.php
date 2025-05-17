@@ -23,6 +23,7 @@ class VenteRessource extends JsonResource
                 return $this->selledProducts->pluck('product.name');
             }),
             'total_price'=> $this->total_price,
+            'invoice' => $this->invoice,
             'buyer_infos' => $this->buyer_infos,
             'created_at' => $this->created_at,
         ];
