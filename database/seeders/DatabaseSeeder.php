@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
         // User::truncate();
         User::create([
-            'name' => 'Jordy GNANIH',
+            'name' => 'Admin name',
             'email' => 'ppapadollard@gmail.com',
             'role' => 'admin',
             'password' => 'password'

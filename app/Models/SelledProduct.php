@@ -13,6 +13,8 @@ class SelledProduct extends Model
         'product_id',
         'quantity',
         'type',
+        'quantity_per_box',
+        'sell_price',
     ];
     public function vente()
     {
@@ -22,14 +24,8 @@ class SelledProduct extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    public function getTotalPriceAttribute()
-    {
-        return $this->product->category == 'unite' ? ($this->product->price_unit * $this->quantity) : ($this->type == 'detail' ? ($this->product->price_kilo * $this->quantity) : ($this->product->price_carton * $this->quantity));
-    }
+
     protected $dispatchesEvents = [
         'created' => SelledProductCreated::class,
-    ];
-    protected $appends = [
-        'total_price',
     ];
 }

@@ -11,7 +11,8 @@ class CreateEntrer extends FormRequest
      */
     public function authorize(): bool
     {
-        return checkIfUserIsAdmin();
+        // return checkIfUserIsAdmin();
+        return true;
     }
 
     /**
@@ -26,7 +27,7 @@ class CreateEntrer extends FormRequest
             "product_id" => ["required", "exists:products,id"],
             "price" => ["required", "numeric"],
             "box_quantity" => ["nullable","numeric"],
-            "kilo_quantity" => ["nullable","numeric"],
+            "kilo_once_quantity" => ["nullable","numeric"],
             "unit_quantity" => ["nullable","numeric"],
             "fournisseur_id" => ["required", "exists:fournisseurs,id"]
         ];

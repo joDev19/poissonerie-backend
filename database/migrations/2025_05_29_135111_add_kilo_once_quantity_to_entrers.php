@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ventes', function (Blueprint $table) {
-            $table->id();
-            $table->boolean('is_paid')->default(false);
-            $table->json('buyer_infos')->nullable();
-            $table->timestamps();
+        Schema::table('entrers', function (Blueprint $table) {
+            $table->float('kilo_once_quantity')->default(0);
+            $table->dropColumn('kilo_quantity');
         });
     }
 
@@ -24,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ventes');
+        Schema::table('entrers', function (Blueprint $table) {
+            //
+        });
     }
 };

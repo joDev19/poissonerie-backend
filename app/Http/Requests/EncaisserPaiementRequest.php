@@ -4,14 +4,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MarqueCreateRequest extends FormRequest
+class EncaisserPaiementRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        // return checkIfUserIsAdmin();
         return true;
     }
 
@@ -22,8 +21,10 @@ class MarqueCreateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            "name" => ["required", "unique:marques,name"],
-        ];
+        return
+            [
+                'amount_paid_this_time' => 'required|numeric',
+            ]
+        ;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateVente;
+use App\Http\Requests\EncaisserPaiementRequest;
 use App\Models\Vente;
 use App\Services\VenteService;
 use Illuminate\Http\Request;
@@ -66,4 +67,14 @@ class VenteController extends Controller
     {
         return $this->venteService->delete($id);
     }
+
+    public function statVente(Request $request)
+    {
+        return $this->venteService->statVente($request->startDate, $request->endDate);
+    }
+    public function encaisser($id, EncaisserPaiementRequest $request)
+    {
+        return $this->venteService->encaisser($id, $request->validated('amount_paid_this_time'));
+    }
+    
 }

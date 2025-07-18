@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ventes', function (Blueprint $table) {
-            $table->id();
-            $table->boolean('is_paid')->default(false);
-            $table->json('buyer_infos')->nullable();
-            $table->timestamps();
+        Schema::table('selled_products', function (Blueprint $table) {
+            $table->float('quantity_per_box')->nullable();
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ventes');
+        Schema::table('selled_products', function (Blueprint $table) {
+            //
+        });
     }
 };
