@@ -22,6 +22,7 @@ class SelledProductResource extends JsonResource
             'product' => $this->whenLoaded('product', function () {
                 return $this->product;
             }),
+            'sell_price' => $this->sell_price,
             'total_price' => $this->quantity * $this->sell_price, // Assuming sell_price is the price per unit
             'quantity_per_box' => $this->quantity_per_box,
         ];

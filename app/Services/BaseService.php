@@ -9,9 +9,9 @@ class BaseService implements BaseInterface
 
     public function all($query = null, array $data = [], array $with = [])
     {
-        $queryBuilder = $this->model->orderByDesc('created_at');
+        $queryBuilder = $this->model->where('user_id', auth()->user()->id)->orderByDesc('created_at');
         if ($query) {
-            $queryBuilder = $query->orderByDesc('created_at');
+            $queryBuilder = $query->where('user_id', auth()->user()->id)->orderByDesc('created_at');
         }
         if (count($with) > 0) {
             $queryBuilder = $queryBuilder->with($with);
@@ -34,7 +34,7 @@ class BaseService implements BaseInterface
 
     public function store($data)
     {
-        return $this->model->create($data);
+        return $this->model->create(array_merge($data, ['user_id'=>auth()->user()->id]));
     }
 
     public function update($id, $data)
@@ -49,7 +49,7 @@ class BaseService implements BaseInterface
     }
     public function filter(array $data, $queryBuilder)
     {
-        
+
         foreach ($data as $key => $value) {
             if ($key == 'name') {
                 $queryBuilder = $queryBuilder->where($key, 'LIKE', '%' . $value . '%');

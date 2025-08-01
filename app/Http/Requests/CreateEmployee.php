@@ -26,6 +26,7 @@ class CreateEmployee extends FormRequest
             "name" => ["required"],
             "email" => ["required", "email"],
             "password" => ["required"],
+            "role" => ["required", "in:employee,caissiere"]
         ];
     }
 }

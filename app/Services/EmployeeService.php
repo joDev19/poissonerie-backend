@@ -7,7 +7,7 @@ class EmployeeService extends BaseService{
         parent::__construct($user);
     }
     public function all($query = null, array $data = [], array $with = []){
-        $querybuilder = User::where('role', 'employee');
+        $querybuilder = User::where('role','<>' ,'admin');
         return parent::all($querybuilder, $data, $with);
     }
     public function checkIfUserIsEmployee($id){
@@ -19,7 +19,7 @@ class EmployeeService extends BaseService{
         $this->checkIfUserIsEmployee($id);
         return parent::find($id, $with);
     }
-    
+
     public function delete($id)
     {
         $this->checkIfUserIsEmployee($id);

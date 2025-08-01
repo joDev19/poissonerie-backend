@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Fournisseur extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'contact', 'adresse'];
+    protected $fillable = ['name', 'contact', 'adresse', 'user_id'];
     //
     public function approvisionements(): HasMany{
         return $this->hasMany(Entrer::class);

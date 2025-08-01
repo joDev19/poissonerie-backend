@@ -18,6 +18,7 @@ class Vente extends Model
         "amount_paid",
         "contains_gros",
         "type",
+        "user_id",
     ];
 
 

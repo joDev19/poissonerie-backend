@@ -21,6 +21,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'password' => 'password'
         ]);
+        User::create([
+            'name' => 'Admin name 2',
+            'email' => 'ppapadollard2@gmail.com',
+            'role' => 'admin',
+            'password' => 'password'
+        ]);
         // $this->call([
         //     FournisseurSeeder::class,
         //     MarqueSeeder::class,

@@ -12,6 +12,6 @@ class ProductService extends BaseService {
         return parent::all(null, $data, ['marque']);
     }
     public function create(){
-        return ['marques' => Marque::all()];
+        return ['marques' => Marque::where('user_id', auth()->user()->id)->get()];
     }
 }

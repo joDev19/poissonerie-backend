@@ -12,10 +12,15 @@ class UserService extends BaseService
     }
     public function login($data)
     {
-        if (Auth::attempt($data)) {
-            return Auth::user();
+        $user = User::where('email', $data['email'])->first();
+        if(!$user){
+            abort(403, "Bad credentials");
         }
-        abort(403, "Bad credentials");
+        if(!Hash::check($data['password'], $user->password)){
+            abort(403, "Bad credentials");
+        }
+        $token = $user->createToken("");
+        return ['token' => $token->plainTextToken];
     }
     public function changeInfos($data)
     {
@@ -37,9 +42,7 @@ class UserService extends BaseService
     }
     public function logout($request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $request->user()->currentAccessToken()->delete();
         return 1;
     }
 }

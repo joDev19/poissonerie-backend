@@ -16,7 +16,7 @@ class EntrerService extends BaseService
     }
     public function create(){
         // liste des produits
-        return ['products' => Product::all(), 'marques' => Marque::all(), 'fournisseurs' => Fournisseur::all()];
+        return ['products' => Product::where('user_id', auth()->user()->id)->get(), 'marques' => Marque::where('user_id', auth()->user()->id)->get(), 'fournisseurs' => Fournisseur::where('user_id', auth()->user()->id)->get()];
     }
     public function find($id, array $with = ['product.marque', 'fournisseur']){
         return parent::find($id, $with);

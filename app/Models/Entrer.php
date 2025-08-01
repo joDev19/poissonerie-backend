@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Entrer extends Model
 {
     //
-    protected $fillable = ['date', 'product_id', 'price', 'box_quantity', 'kilo_once_quantity', 'fournisseur_id', 'unit_quantity'];
+    protected $fillable = ['date', 'product_id', 'price', 'box_quantity', 'kilo_once_quantity', 'fournisseur_id', 'unit_quantity', 'user_id'];
     public function product(): BelongsTo{
         return $this->belongsTo(Product::class);
     }

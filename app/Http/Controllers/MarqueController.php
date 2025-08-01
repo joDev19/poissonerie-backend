@@ -7,10 +7,12 @@ use App\Http\Requests\UpdateMarque;
 use App\Models\Marque;
 use App\Services\MarqueService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class MarqueController extends Controller
 {
-    public function __construct(private MarqueService $marqueService){
+    public function __construct(private MarqueService $marqueService)
+    {
 
     }
     /**
@@ -42,7 +44,14 @@ class MarqueController extends Controller
      */
     public function show(int $marque)
     {
-        return $this->marqueService->find($marque);
+        $marque = $this->marqueService->find($marque);
+        $response = Gate::inspect('view', $marque);
+        if ($response->allowed()) {
+            return $marque;
+        } else {
+            abort(403, $response->message());
+        }
+
     }
 
     /**

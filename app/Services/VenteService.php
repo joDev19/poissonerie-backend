@@ -84,7 +84,7 @@ class VenteService extends BaseService
                 'invoice' => "invoices/invoice_" . $vente->id . ".pdf"
             ]);
 
-            return $vente;
+            return ["message" => "Vente créé avec succès. Code de la vente: $vente->id", $vente];
         });
     }
     public function calculatePrice(array $selledProducts, float $price = null)
@@ -103,7 +103,7 @@ class VenteService extends BaseService
     }
     public function create()
     {
-        return ['products' => Product::with('marque')->get()];
+        return ['products' => Product::with('marque')->where('user_id', auth()->user()->id)->get()];
     }
     protected function generateInvoice(Vente $vente)
     {
@@ -135,37 +135,56 @@ class VenteService extends BaseService
     }
     public function statVente($startDate = null, $endDate = null)
     {
-        $queryBuilder = Vente::query();
-        if ($startDate) {
-            $queryBuilder = $queryBuilder->whereDate('created_at', '>=', $startDate);
-        }
-        if ($endDate) {
-            $queryBuilder = $queryBuilder->whereDate('created_at', '<=', $endDate);
-        }
-        // Nombre total de vente
-        $nombreTotalVente = $queryBuilder->count();
-        // Nombre total des ventes en gros
-        $nombreTotalVenteGros = $queryBuilder->join('selled_products', 'ventes.id', '=', 'selled_products.vente_id')
-            ->where('selled_products.type', '=', 'gros')
-            ->count();
-        $nombreTotalVenteDetail = $queryBuilder->join('selled_products as sp', 'ventes.id', '=', 'selled_products.vente_id')
-            ->where('sp.type', '=', 'detail')->distinct('ventes.id')
-            ->count();
-        // Liste des produits vendu respectivement avec les quantité vendus
-        // $produitsVendus = $queryBuilder
-        //     ->join('selled_products', 'ventes.id', '=', 'selled_products.vente_id')
-        //     ->join('products', 'selled_products.product_id', '=', 'products.id')
-        //     ->select('products.name as product_name', DB::raw('SUM(selled_products.quantity) as total_quantity'))
-        //     ->groupBy('products.name')
-        //     ->get();
         return [
-            "nombre_total_vente" => $nombreTotalVente,
-            // "produitsVendus" => $produitsVendus,
-            "nombre_total_vente_gros" => $nombreTotalVenteGros,
-            "nombre_total_vente_detail" => $nombreTotalVenteDetail,
+            "nombre_total_vente" => $this->getCountAllVentes($startDate, $endDate),
+            "produitsVendus" => $this->getSelledProductWithTheirQuantities($startDate, $endDate),
+            "nombre_total_vente_gros" => $this->getCountVenteEnGros($startDate, $endDate),
+            "nombre_total_vente_detail" => $this->getCountVenteEnDetail($startDate, $endDate),
+            "nombre_total_vente_payer" => 0,
+            "nombre_total_vente_impayer" => 0,
+            "nombre_total_vente_au_comptant" => 0,
+            "nombre_total_vente_a_terme" => 0
         ];
     }
+    public function getCountVenteEnGros($startDate, $endDate)
+    {
+         $queryBuilder = Vente::query();
+        $queryBuilder = $this->filterDateQueryBuilder($startDate, $endDate, $queryBuilder);
+        return $queryBuilder->where('contains_gros', '=', 1)->count();
+    }
+    public function getCountVenteEnDetail($startDate, $endDate)
+    {
+        $queryBuilder = Vente::query();
+        $queryBuilder = $this->filterDateQueryBuilder($startDate, $endDate, $queryBuilder);
+        return $queryBuilder->where('contains_gros', '=', 0)->count();
+    }
+    public function getCountAllVentes($startDate, $endDate)
+    {
+        $queryBuilder = Vente::query();
+        $queryBuilder = $this->filterDateQueryBuilder($startDate, $endDate, $queryBuilder);
+        return $queryBuilder->count();
+    }
+    public function getSelledProductWithTheirQuantities($startDate, $endDate)
+    {
+        $queryBuilder = Vente::query();
+        $queryBuilder = $this->filterDateQueryBuilder($startDate, $endDate, $queryBuilder);
+        return $queryBuilder
+            ->join('selled_products', 'ventes.id', '=', 'selled_products.vente_id')
+            ->join('products', 'selled_products.product_id', '=', 'products.id')
+            ->select('products.name as product_name', DB::raw('SUM(selled_products.quantity) as total_quantity'), DB::raw('SUM(selled_products.quantity*selled_products.sell_price) as price'))
+            ->groupBy('products.name')
+            ->get();
+    }
+    public function filterDateQueryBuilder($startDate, $endDate, $queryBuilder){
+        if($startDate){
+            $queryBuilder = $queryBuilder->whereDate('created_at', '>=', $startDate);
+        }
+        if($endDate){
+            $queryBuilder = $queryBuilder->whereDate('created_at', '<=', $endDate);
+        }
+        return $queryBuilder;
 
+    }
     public function encaisser($id, $amount)
     {
         $vente = parent::find($id);
@@ -184,7 +203,7 @@ class VenteService extends BaseService
         } else {
             // Si le montant payé est inférieur au prix de la vente, on laisse is_paid à false
             // et on met à jour amount_paid
-            if($vente->type=="au comptant"){
+            if ($vente->type == "au comptant") {
                 abort(500, 'Vous ne pouvez pas encaisser un montant inférieur au prix de la vente pour une vente au comptant');
             }
             $vente->is_paid = false;
