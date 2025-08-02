@@ -103,7 +103,7 @@ class VenteService extends BaseService
     }
     public function create()
     {
-        return ['products' => Product::with('marque')->where('user_id', auth()->user()->id)->get()];
+        return ['products' => Product::with('marque')->where('user_id', connectedBtqId())->get()];
     }
     protected function generateInvoice(Vente $vente)
     {
