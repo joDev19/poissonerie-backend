@@ -11,7 +11,8 @@
             color: black;
             padding: 1rem;
             font-family: sans-serif;
-            font-size: 0.875rem; /* équivalent à text-sm */
+            font-size: 0.875rem;
+            /* équivalent à text-sm */
         }
 
         @media print {
@@ -57,7 +58,8 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
         }
@@ -83,8 +85,13 @@
     <!-- Infos facture -->
     <div class="mb-4">
         <p><span class="font-semibold">Facture N°:</span> {{ $vente->id }}</p>
-        <p><span class="font-semibold">Date:</span> {{ $vente->created_at }}</p>
-        <p><span class="font-semibold">Client:</span> {{ $vente->buyer_infos == null ? "__" : json_decode($vente->buyer_infos, true)['nom'] }}</p>
+        <p><span class="font-semibold">Date:</span> {{ $vente->created_at->format('d-m-Y') }}</p>
+        @if ($vente->buyer_infos)
+            <p><span class="font-semibold">Nom du client:</span> {{ json_decode($vente->buyer_infos, true)['nom'] }}</p>
+            <p><span class="font-semibold">IFU du client:</span> {{ json_decode($vente->buyer_infos, true)['ifu'] }}</p>
+        @endif
+        <p><span class="font-semibold">Type de vente:</span> {{ $vente->contains_gros ? "En gros" : "En détail" }}</p>
+        <p><span class="font-semibold">Type de paiement:</span> {{ $vente->type }}</p>
     </div>
 
     <!-- Tableau des produits -->
@@ -100,10 +107,11 @@
         <tbody>
             @foreach ($vente->selledProducts as $selled_product)
                 <tr>
-                    <td>{{$selled_product->product->name}}</td>
-                    <td>{{$selled_product->quantity}} {{ $selled_product->type == 'gros' ? 'carton(s)' : 'kg' }}</td>
-                    <td>{{ $selled_product->product->category == 'unite' ?  $selled_product->product->price_unit : ($selled_product->type == 'gros' ? $selled_product->product->price_carton : $selled_product->product->price_kilo) }} F</td>
-                    <td>{{ $selled_product->total_price }} F</td>
+                    <td>{{ $selled_product->product->name }}</td>
+                    <td>{{ $selled_product->quantity }} {{ $selled_product->type == 'gros' ? 'carton(s)' : 'kg' }}</td>
+                    <td>{{ $selled_product->sell_price }}
+                        F</td>
+                    <td>{{ $selled_product->sell_price * $selled_product->quantity }} F</td>
                 </tr>
             @endforeach
         </tbody>
@@ -111,7 +119,7 @@
 
     <!-- Total -->
     <div class="text-right mb-4">
-        <p class="font-bold">Total à payer : {{$vente->total_price}} F CFA</p>
+        <p class="font-bold">Total à payer : {{ $vente->price }} F CFA</p>
     </div>
 
     <!-- Remerciement -->

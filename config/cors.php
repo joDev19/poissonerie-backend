@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env("FRONTEND_URL", "*"), "https://poissonerie-frontend.vercel.app"],
+    'allowed_origins' => [env("FRONTEND_URL", "*"), "https://poissonerie-frontend.vercel.app", "https://662b66ea4582.ngrok-free.app"],
 
     'allowed_origins_patterns' => [],
 

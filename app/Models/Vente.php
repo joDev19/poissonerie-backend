@@ -27,9 +27,9 @@ class Vente extends Model
     }
 
 
-    protected $with = [
-        'selledProducts',
-    ];
+    // protected $with = [
+    //     'selledProducts',
+    // ];
     protected $casts = [
         'buyer_infos' => 'array',
         'date' => 'datetime',

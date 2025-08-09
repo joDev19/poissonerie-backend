@@ -9,7 +9,7 @@ class BaseService implements BaseInterface
 
     public function all($query = null, array $data = [], array $with = [])
     {
-        $queryBuilder = $this->model->where('user_id', connectedBtqId())->orderByDesc('created_at');
+        $queryBuilder = $this->model->where($this->model->getTable() . '.user_id', connectedBtqId())->orderByDesc('created_at');
         if ($query) {
             $queryBuilder = $query->where('user_id', connectedBtqId())->orderByDesc('created_at');
         }
@@ -20,21 +20,22 @@ class BaseService implements BaseInterface
         if (count($data) > 0) {
             $queryBuilder = $this->filter(collect($data)->except('page')->toArray(), $queryBuilder);
         }
-        return $queryBuilder->paginate(15);
+
+        return $queryBuilder->paginate(5);
     }
 
     public function find($id, array $with = [])
     {
         if (count($with) > 0) {
             return $this->model->with($with)->findOrFail($id);
-        }else{
+        } else {
             return $this->model->findOrFail($id);
         }
     }
 
     public function store($data)
     {
-        return $this->model->create(array_merge($data, ['user_id'=>connectedBtqId()]));
+        return $this->model->create(array_merge($data, ['user_id' => connectedBtqId()]));
     }
 
     public function update($id, $data)
@@ -47,9 +48,11 @@ class BaseService implements BaseInterface
     {
         return $this->model->findOrFail($id)->delete();
     }
-    public function filter(array $data, $queryBuilder)
+    public function filter(array $data, $queryBuilder = null)
     {
-
+        if (!$queryBuilder) {
+            $queryBuilder = $this->model->query();
+        }
         foreach ($data as $key => $value) {
             if ($key == 'name') {
                 $queryBuilder = $queryBuilder->where($key, 'LIKE', '%' . $value . '%');
@@ -63,8 +66,7 @@ class BaseService implements BaseInterface
                 $queryBuilder = $queryBuilder->whereHas('product', function (Builder $query) use ($value) {
                     $query->where('name', 'LIKE', '%' . $value . '%');
                 });
-            }
-            else {
+            } else {
                 $queryBuilder = $queryBuilder->where($key, '=', $value);
             }
         }

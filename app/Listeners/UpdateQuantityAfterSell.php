@@ -25,12 +25,12 @@ class UpdateQuantityAfterSell
         $product = $selledProduct->product;
         if ($product->category == 'kilo_ou_carton') {
             if ($selledProduct->type == 'gros') {
-                $product->quantity->box -= $selledProduct->quantity;
-                $product->quantity->kg -= $selledProduct->quantity*20;
+                //$product->quantity->box -= $selledProduct->quantity;
+                $product->quantity->kg -= $selledProduct->quantity*$selledProduct->quantity_per_box;
 
             } else {
                 $product->quantity->kg -= $selledProduct->quantity;
-                $product->quantity->box -= $selledProduct->quantity / 20;
+                //$product->quantity->box -= $selledProduct->quantity / 20;
 
             }
         } else {

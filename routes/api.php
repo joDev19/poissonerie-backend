@@ -33,4 +33,4 @@ Route::put('/change-infos', [UserController::class, 'changeInfo'])->middleware("
 Route::post('/password-change', [UserCOntroller::class, 'changePassword'])->middleware('auth:sanctum');
 Route::resource('employees', EmployeeController::class)->middleware('auth:sanctum');
 // Route::resource('employees', EmployeeController::class);
-Route::get('/vente/stats', [VenteController::class, 'statVente']);
+Route::get('/vente/stats', [VenteController::class, 'statVente'])->middleware('auth:sanctum');

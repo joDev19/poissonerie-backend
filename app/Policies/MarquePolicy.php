@@ -21,7 +21,7 @@ class MarquePolicy
      */
     public function view(User $user, Marque $marque): Response
     {
-        return  $marque->user_id === $user->id ? Response::allow() : Response::deny("Vous n'êtes pas propiétaire de cette marque");;
+        return  $marque->user_id === connectedBtqId() ? Response::allow() : Response::deny("Vous n'êtes pas propiétaire de cette marque");;
     }
 
     /**
