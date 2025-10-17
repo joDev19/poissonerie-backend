@@ -121,7 +121,7 @@ class VenteService extends BaseService
         // return $pdf->save('invoices/');
         return $pdf->save('invoice_' . $vente->id . '.pdf', 'invoices');
     }
-    public function find($id, $with = ['selledProducts.product'])
+    public function find($id, $with = ['selledProducts.product',])
     {
         $vente = parent::find($id, $with);
         return (new VenteRessource($vente))->toJson();

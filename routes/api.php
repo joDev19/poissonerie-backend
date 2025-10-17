@@ -24,7 +24,7 @@ Route::get('logout', [AuthController::class, 'logout'])->middleware("auth:sanctu
 Route::apiResource("/marques", MarqueController::class)->middleware("auth:sanctum");
 Route::apiResource("/fournisseurs", FournisseurController::class)->middleware("auth:sanctum");
 Route::resource("/entrers", EntrerController::class)->middleware("auth:sanctum");
-Route::resource('/sells', VenteController::class)->middleware("auth:sanctum");
+// Route::resource('/sells', VenteController::class)->middleware("auth:sanctum");
 Route::resource('/sells', VenteController::class)->middleware("auth:sanctum");
 Route::put('sells/encaisser/{id}', [VenteController::class, 'encaisser'])->middleware("auth:sanctum");
 Route::get('/stat', [StatController::class, 'index'])->middleware("auth:sanctum");
