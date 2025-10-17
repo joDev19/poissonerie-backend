@@ -11,8 +11,8 @@ class EntrerService extends BaseService
     {
         parent::__construct($entrer);
     }
-    public function all($query = null, array $data = [], array $with = ["product"]){
-        return parent::all(null, $data, $with);
+    public function all($query = null, array $data = [], array $with = ["product"], $intern = false){
+        return parent::all(null, $data, $with, $intern = false);
     }
     public function create(){
         // liste des produits

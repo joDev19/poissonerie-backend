@@ -16,7 +16,7 @@ class VenteService extends BaseService
     {
         parent::__construct($vente);
     }
-    public function all($query = null, array $data = [], array $with = ["selledProducts"])
+    public function all($query = null, array $data = [], array $with = ["selledProducts"], $intern = false)
     {
         $query = Vente::query();
         $queryBuilder = $this->venteFilter($data, $query);

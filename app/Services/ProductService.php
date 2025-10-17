@@ -7,7 +7,7 @@ class ProductService extends BaseService {
         parent::__construct($product);
     }
 
-    public function all($query = null, array $data = [], array $with = []){
+    public function all($query = null, array $data = [], array $with = [], $intern = false){
         // return Product::with('marque')->paginate();
         return parent::all(null, $data, ['marque']);
     }

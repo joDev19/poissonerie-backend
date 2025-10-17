@@ -7,7 +7,7 @@ class BaseService implements BaseInterface
     {
     }
 
-    public function all($query = null, array $data = [], array $with = [])
+    public function all($query = null, array $data = [], array $with = [], $intern = false)
     {
         $queryBuilder = $this->model->where($this->model->getTable() . '.user_id', connectedBtqId())->orderByDesc('created_at');
         if ($query) {
@@ -20,8 +20,11 @@ class BaseService implements BaseInterface
         if (count($data) > 0) {
             $queryBuilder = $this->filter(collect($data)->except('page')->toArray(), $queryBuilder);
         }
-
-        return $queryBuilder->paginate(5);
+        if($intern==false){
+            return $queryBuilder->paginate(5);
+        }else{
+            return $queryBuilder;
+        }
     }
 
     public function find($id, array $with = [])
