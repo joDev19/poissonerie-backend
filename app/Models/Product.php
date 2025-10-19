@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\ProductCreated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -16,10 +17,14 @@ class Product extends Model
     {
         return $this->belongsTo(Marque::class);
     }
-    public function quantitys(): HasMany
+    public function quantitys(): HasMany|HasOne
     {
         // revoir....
-        return $this->hasMany(ProductQuantity::class, 'product_id');
+        if ($this->category == 'kilo_ou_carton') {
+            return $this->hasMany(ProductQuantity::class, 'product_id');
+        } else {
+            return $this->hasOne(ProductQuantity::class, 'product_id');
+        }
     }
     public function _quantities()
     {
@@ -32,19 +37,19 @@ class Product extends Model
                 )
                 ->groupBy('kilo_once_quantity')->get();
         } else {
-
+            return $this->quantitys()->first()->unit;
         }
         // return $this->hasOne(ProductQuantity::class, 'product_id');
     }
-     protected function quantities(): Attribute
+    protected function quantities(): Attribute
     {
         return new Attribute(
-            get: fn () => $this->_quantities(),
+            get: fn() => $this->_quantities(),
         );
     }
     protected $dispatchesEvents = [
         'created' => ProductCreated::class,
     ];
     // protected $with = ['quantity'];
-     protected $appends = ['quantities'];
+    protected $appends = ['quantities'];
 }

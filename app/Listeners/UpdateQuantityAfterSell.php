@@ -57,6 +57,9 @@ class UpdateQuantityAfterSell
             }
         } else {
             //cas des produits a l unite
+            $pq = $product->quantitys;
+            $pq->unit -= $selledProduct->quantity;
+            $pq->save();
         }
     }
 }

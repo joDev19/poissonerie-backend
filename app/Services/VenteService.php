@@ -50,7 +50,7 @@ class VenteService extends BaseService
                 $uniteDeMesure = 'kg';
             }
         } else {
-            $qte = $product->quantity->unit;
+            $qte = $product->quantitys->unit;
             $uniteDeMesure = '';
         }
         if ($qte < $dataCollection->get("quantity")) {

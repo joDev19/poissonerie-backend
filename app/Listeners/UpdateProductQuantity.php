@@ -26,7 +26,14 @@ class UpdateProductQuantity
         $product = $entrer->product;
         // $productQuantity = $product->quantity;
         // au lieu de modifier la ligne existante, je vais créer une nouvelle ligne ssi il y n'y a jamais eu un approvisionnement de cette kilo_once_quantity qui a été fait
-        $productQuantitie = ProductQuantity::where([['product_id', '=', $product->id], ['kilo_once_quantity', '=', $entrer->kilo_once_quantity],])->first();
+        $productQuantitie = null;
+        if($product->category != 'kilo_ou_carton'){
+            // un produit qui n'est pas vendu au kilo ne peut pas avoir de quantité en carton
+           $productQuantitie = ProductQuantity::where('product_id', '=', $product->id)->first();
+        }else{
+            $productQuantitie = ProductQuantity::where([['product_id', '=', $product->id], ['kilo_once_quantity', '=', $entrer->kilo_once_quantity],])->first();
+        }
+
 
         if ($productQuantitie) {
             // modification du nombre de carton de tel kilo existant ....
