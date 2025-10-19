@@ -2,6 +2,7 @@
 namespace App\Services;
 use App\Http\Resources\VenteRessource;
 use App\Models\Product;
+use App\Models\ProductQuantity;
 use App\Models\SelledProduct;
 use App\Models\SurplusVente;
 use App\Models\Vente;
@@ -38,12 +39,14 @@ class VenteService extends BaseService
         $uniteDeMesure = null;
         $product = $productService->find($dataCollection->get('product_id'));
         if ($product->category == 'kilo_ou_carton') {
+            $pQ = ProductQuantity::where('product_id', $product->id)
+                ->where('kilo_once_quantity', $dataCollection->get("quantity_per_box"))
+                ->first();
             if ($dataCollection->get('type') == 'gros') {
-                $qte = (float) $product->quantity->kg / (float) $dataCollection->get("quantity_per_box");
-                //dd($qte);
+                $qte = $pQ->box;
                 $uniteDeMesure = 'carton(s)';
             } else {
-                $qte = $product->quantity->kg;
+               $qte = $pQ->kg;
                 $uniteDeMesure = 'kg';
             }
         } else {
