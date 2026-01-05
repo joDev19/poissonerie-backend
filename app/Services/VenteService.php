@@ -39,15 +39,22 @@ class VenteService extends BaseService
         $uniteDeMesure = null;
         $product = $productService->find($dataCollection->get('product_id'));
         if ($product->category == 'kilo_ou_carton') {
+            // verifier le type de vente
+            // si c'est une vent en gros, verifier le kilo_once_quantity que le client veut acheter
+            // recupere la quantite disponible
             $pQ = ProductQuantity::where('product_id', $product->id)
                 ->where('kilo_once_quantity', $dataCollection->get("quantity_per_box"))
                 ->first();
-            if ($dataCollection->get('type') == 'gros') {
-                $qte = $pQ->box;
-                $uniteDeMesure = 'carton(s)';
-            } else {
-               $qte = $pQ->kg;
-                $uniteDeMesure = 'kg';
+            if($pQ){
+                if ($dataCollection->get('type') == 'gros') {
+                    $qte = $pQ->box;
+                    $uniteDeMesure = 'carton(s)';
+                } else {
+                   $qte = $pQ->kg;
+                    $uniteDeMesure = 'kg';
+                }
+            }else{
+                abort(500, 'Aucune quantité disponible pour ce produit avec ' . $dataCollection->get("quantity_per_box") . ' kg par carton.');
             }
         } else {
             $qte = $product->quantitys->unit;

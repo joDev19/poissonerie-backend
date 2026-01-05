@@ -19,8 +19,7 @@ return new class extends Migration
             $table->float('price_unit_max')->default(0);
             $table->float('price_kilo_min')->default(0);
             $table->float('price_kilo_max')->default(0);
-            $table->float('price_carton_min')->default(0);
-            $table->float('price_carton_max')->default(0);
+            
         });
     }
 

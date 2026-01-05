@@ -25,9 +25,16 @@ class UpdateQuantityAfterSell
     }
     private function updateQuantityForBoxWhenSellEnGros($selledQuantity, ProductQuantity $pq)
     {
-        $pq->box -= $selledQuantity;
-        $pq->kg -= $selledQuantity * $pq->kilo_once_quantity;
-        $pq->save();
+        $newQuantityInBox = $pq->box - $selledQuantity;
+        if($newQuantityInBox < 0){
+            // cas ou on a vendu plus de box que disponible
+            // on laisse le stock null
+        }else{
+            $pq->box = $newQuantityInBox;
+            $pq->kg -= $selledQuantity * $pq->kilo_once_quantity;
+            $pq->save();
+        }
+
 
     }
     private function updateQuantityForBoxWhenSellEnDetail($selledQuantity, ProductQuantity $pq)

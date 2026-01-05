@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->float("kilo_quantity")->default(0);
             $table->float("box_quantity")->default(0);
+            // $table->float('price_carton_min')->default(0);
+            // $table->float('price_carton_max')->default(0);
             $table->timestamps();
         });
     }

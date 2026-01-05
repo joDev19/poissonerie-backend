@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Events\EntrerCreated;
 use App\Models\ProductQuantity;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class UpdateProductQuantity
 {
@@ -27,22 +25,22 @@ class UpdateProductQuantity
         // $productQuantity = $product->quantity;
         // au lieu de modifier la ligne existante, je vais créer une nouvelle ligne ssi il y n'y a jamais eu un approvisionnement de cette kilo_once_quantity qui a été fait
         $productQuantitie = null;
-        if($product->category != 'kilo_ou_carton'){
+        if ($product->category != 'kilo_ou_carton') {
             // un produit qui n'est pas vendu au kilo ne peut pas avoir de quantité en carton
-           $productQuantitie = ProductQuantity::where('product_id', '=', $product->id)->first();
-        }else{
+            $productQuantitie = ProductQuantity::where('product_id', '=', $product->id)->first();
+        } else {
             $productQuantitie = ProductQuantity::where([['product_id', '=', $product->id], ['kilo_once_quantity', '=', $entrer->kilo_once_quantity],])->first();
         }
 
 
         if ($productQuantitie) {
             // modification du nombre de carton de tel kilo existant ....
-            if($product->category == 'kilo_ou_carton'){
+            if ($product->category == 'kilo_ou_carton') {
                 $oldBox = $productQuantitie->box;
                 $productQuantitie->box = $oldBox + $entrer->box_quantity;
                 $oldKilo = $productQuantitie->kg;
                 $productQuantitie->kg = $oldKilo + ($entrer->box_quantity * $entrer->kilo_once_quantity);
-            }else{
+            } else {
                 $oldUnit = $productQuantitie->unit;
                 $productQuantitie->unit = $oldUnit + $entrer->unit_quantity;
             }

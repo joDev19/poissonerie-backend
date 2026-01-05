@@ -14,4 +14,6 @@ class ProductService extends BaseService {
     public function create(){
         return ['marques' => Marque::where('user_id', connectedBtqId())->get()];
     }
+
+    
 }

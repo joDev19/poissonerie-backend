@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('product_quantities', function (Blueprint $table) {
             // ajouter la coloumn kilo_once_quantity pour garder la quantité de chaque carton lors de cette aprovisionnement ( il peut être null )
             $table->float('kilo_once_quantity')->nullable();
+            $table->float('price')->default(0);
         });
     }
 

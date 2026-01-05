@@ -12,7 +12,8 @@ class ProductQuantity extends Model
         'kg',
         'box',
         'kilo_once_quantity',
-        'unit'
+        'unit',
+        'price'
     ];
     public function product(): BelongsTo{
         return $this->belongsTo(Product::class);

@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateBoxPrice;
 use App\Models\ProductQuantity;
+use App\Services\ProductQuantityService;
 use Illuminate\Http\Request;
 
 class ProductQuantityController extends Controller
 {
+    public function __construct(private ProductQuantityService $productQuantityService){
+
+    }
+
+    public function setBoxPrice(int $productId, UpdateBoxPrice $request){
+        return $this->productQuantityService->setBoxPrice($productId, $request->validated());
+    }
     /**
      * Display a listing of the resource.
      */

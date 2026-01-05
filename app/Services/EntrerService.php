@@ -14,6 +14,7 @@ class EntrerService extends BaseService
     public function all($query = null, array $data = [], array $with = ["product"], $intern = false){
         return parent::all(null, $data, $with, $intern = false);
     }
+
     public function create(){
         // liste des produits
         return ['products' => Product::where('user_id', connectedBtqId())->get(), 'marques' => Marque::where('user_id', connectedBtqId())->get(), 'fournisseurs' => Fournisseur::where('user_id', connectedBtqId())->get()];

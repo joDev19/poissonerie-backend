@@ -27,8 +27,8 @@ class UpdateProduct extends FormRequest
             "category" => ["required", "in:unite,kilo_ou_carton"],
             "price_kilo_min" => ["required_if:category,kilo_ou_carton", "numeric"],
             "price_kilo_max" => ["required_if:category,kilo_ou_carton", "numeric", "gte:price_kilo_min"],
-            "price_carton_min" => ["required_if:category,kilo_ou_carton", "numeric"],
-            "price_carton_max" => ["required_if:category,kilo_ou_carton", "numeric", "gte:price_carton_min"],
+            //"price_carton_min" => ["required_if:category,kilo_ou_carton", "numeric"],
+            //"price_carton_max" => ["required_if:category,kilo_ou_carton", "numeric", "gte:price_carton_min"],
             "price_unit_min" => ["required_if:category,unite", "numeric"],
             "price_unit_max" => ["required_if:category,unite", "numeric", "gte:price_unit_min"],
         ];

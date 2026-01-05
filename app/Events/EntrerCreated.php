@@ -2,7 +2,9 @@
 
 namespace App\Events;
 
+use App\Models\BoxEntrerPrice;
 use App\Models\Entrer;
+use App\Services\BoxEntrerPriceService;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;

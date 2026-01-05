@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateEntrer;
 use App\Models\Entrer;
+use App\Rules\requiredIfProductIsKilo;
 use App\Services\EntrerService;
 use Illuminate\Http\Request;
 
