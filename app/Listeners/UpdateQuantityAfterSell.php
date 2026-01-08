@@ -39,8 +39,9 @@ class UpdateQuantityAfterSell
     }
     private function updateQuantityForBoxWhenSellEnDetail($selledQuantity, ProductQuantity $pq)
     {
-        $pq->kg -= $selledQuantity;
-        $pq->box -= $pq->kg / $pq->kilo_once_quantity;
+        $oldQuanity = $pq->kg;
+        $pq->kg = $oldQuanity - $selledQuantity;
+        $pq->box -=  ($oldQuanity - $selledQuantity)  / $pq->kilo_once_quantity;
         $pq->save();
     }
 
