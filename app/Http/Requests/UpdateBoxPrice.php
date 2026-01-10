@@ -23,7 +23,6 @@ class UpdateBoxPrice extends FormRequest
     {
         return [
             'price' => 'required|numeric|min:0',
-            'kilo_once_quantity' => 'required|numeric|min:0',
         ];
     }
 }

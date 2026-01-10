@@ -41,7 +41,7 @@ class UpdateQuantityAfterSell
     {
         $oldQuanity = $pq->kg;
         $pq->kg = $oldQuanity - $selledQuantity;
-        $pq->box -=  ($oldQuanity - $selledQuantity)  / $pq->kilo_once_quantity;
+        $pq->box =  ($oldQuanity - $selledQuantity)  / $pq->kilo_once_quantity;
         $pq->save();
     }
 

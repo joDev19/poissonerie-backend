@@ -34,5 +34,5 @@ Route::put('set-product-box-price/{id}', [ProductQuantityController::class, 'set
 Route::put('/change-infos', [UserController::class, 'changeInfo'])->middleware("auth:sanctum");
 Route::post('/password-change', [UserCOntroller::class, 'changePassword'])->middleware('auth:sanctum');
 Route::resource('employees', EmployeeController::class)->middleware('auth:sanctum');
-// Route::resource('employees', EmployeeController::class);
 Route::get('/vente/stats', [VenteController::class, 'statVente'])->middleware('auth:sanctum');
+Route::get('product_boxes', [ProductQuantityController::class, 'getProductBoxes'])->middleware('auth:sanctum');

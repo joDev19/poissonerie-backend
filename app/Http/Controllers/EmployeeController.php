@@ -17,7 +17,7 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->employeeService->all(null, $request->all());
+        return $this->employeeService->allEmployee(null, $request->all());
     }
 
     /**

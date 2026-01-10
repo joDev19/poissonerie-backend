@@ -6,7 +6,7 @@ class EmployeeService extends BaseService{
     public function __construct(private $user = new User()){
         parent::__construct($user);
     }
-    public function all($query = null, array $data = [], array $with = []){
+    public function allEmployee($query = null, array $data = [], array $with = []){
         $querybuilder = User::where('role','<>' ,'admin');
         return parent::all($querybuilder, $data, $with);
     }

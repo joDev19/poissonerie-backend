@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateProduct;
-use App\Http\Requests\UpdateBoxPrice;
 use App\Http\Requests\UpdateProduct;
 use App\Services\ProductService;
 use Illuminate\Http\Request;

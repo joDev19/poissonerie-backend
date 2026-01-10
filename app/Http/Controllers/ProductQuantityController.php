@@ -12,9 +12,11 @@ class ProductQuantityController extends Controller
     public function __construct(private ProductQuantityService $productQuantityService){
 
     }
-
-    public function setBoxPrice(int $productId, UpdateBoxPrice $request){
-        return $this->productQuantityService->setBoxPrice($productId, $request->validated());
+    public function getProductBoxes(){
+        return $this->productQuantityService->getProductBoxes();
+    }
+    public function setBoxPrice(int $id, UpdateBoxPrice $request){
+        return $this->productQuantityService->setBoxPrice($id, $request->validated());
     }
     /**
      * Display a listing of the resource.

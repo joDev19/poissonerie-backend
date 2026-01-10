@@ -21,7 +21,7 @@ class BaseService implements BaseInterface
             $queryBuilder = $this->filter(collect($data)->except('page')->toArray(), $queryBuilder);
         }
         if($intern==false){
-            return $queryBuilder->paginate(5);
+            return $queryBuilder->paginate();
         }else{
             return $queryBuilder;
         }
